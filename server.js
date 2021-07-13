@@ -4,18 +4,23 @@ const fs = require('fs');
 const axios = require('axios');
 require ('dotenv').config();
 
-const converter = require('./ruleConverter')
+const converter = require('./ruleConverter');
 
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
+
+app.post("/gamerules", (req, res) => {
+    // require url from body
     axios.get(req.body.url)
     .then(result => {
-        // console.log(result.data)
+        // convert text document to json
         let rules = converter(result.data);
         return rules;
     })
     .then(rules => {
+        // return json
          res.json(rules);
     }), (err) => {
          console.log(err);
