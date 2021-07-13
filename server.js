@@ -9,7 +9,7 @@ const converter = require('./ruleConverter')
 const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-    axios.get('https://media.wizards.com/2021/downloads/MagicCompRules%2020210419.txt')
+    axios.get(req.body.url)
     .then(result => {
         // console.log(result.data)
         let rules = converter(result.data);
