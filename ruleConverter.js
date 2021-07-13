@@ -1,9 +1,7 @@
 const fs = require('fs');
-
-let gamerules = [];
-
 const converter = (textData) => {
 
+    let gamerules = [];
     // pick out the rule content from text
     const filterArray = (data) => {
         return data.filter(string => {
@@ -32,13 +30,13 @@ const converter = (textData) => {
         return jsonData;
     }
 
-    // set rules to subheaders
-    const setRules = (subHeaderNbr) => {
+    // set rules to subchapters
+    const setRules = (subChapterNbr) => {
         let ruleArray = [];
 
         rawRulesJson.forEach(rule => {
             let ruleNbr = rule.nbr.substr(0, 4);
-            if (ruleNbr == subHeaderNbr && rule.nbr.length > 4) {
+            if (ruleNbr == subChapterNbr && rule.nbr.length > 4) {
                 ruleArray.push({
                     nbr: rule.nbr,
                     text: rule.text.replace(/\r/gm, "")
@@ -51,34 +49,34 @@ const converter = (textData) => {
 
 
     const makeRules = () => {
-        let currentContentNbr = '0';
+        let currentChapterNbr = '0';
         let currentContentJson = null;
 
         rawContentJson.forEach(line => {
             let firstCharOfLine = line.nbr.charAt(0);
-            let firstCharOfHeader = currentContentNbr.charAt(0);
+            let firstCharOfChapter = currentChapterNbr.charAt(0);
 
             //  content number has changed
-            if (line.nbr.length == 2 && currentContentNbr != line.nbr && currentContentJson != null) {
-                currentContentNbr = line.nbr;
+            if (line.nbr.length == 2 && currentChapterNbr != line.nbr && currentContentJson != null) {
+                currentChapterNbr = line.nbr;
                 gamerules.push(currentContentJson);
                 currentContentJson = {};
             }
 
             // set content numbers
             if (line.nbr.length == 2) {
-                currentContentNbr = line.nbr
+                currentChapterNbr = line.nbr
                 currentContentJson = {
                     nbr: line.nbr,
-                    header: line.text.replace(/\r/gm, ""),
-                    subheaders: []
+                    name: line.text.replace(/\r/gm, ""),
+                    subchapters: []
                 }
             }
-            // line belongs to current content header
-            if (firstCharOfLine == firstCharOfHeader) {
-                currentContentJson.subheaders.push({
+            // line belongs to current content chapter
+            if (firstCharOfLine == firstCharOfChapter) {
+                currentContentJson.subchapters.push({
                     nbr: line.nbr,
-                    header: line.text.replace(/\r/gm, ""),
+                    name: line.text.replace(/\r/gm, ""),
                     rules: setRules(line.nbr)
                 })
             }
