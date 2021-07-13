@@ -1,13 +1,20 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
+const cors = require('cors');
 const axios = require('axios');
 require ('dotenv').config();
-
 const converter = require('./ruleConverter');
 
 const PORT = process.env.PORT || 3000;
 
+const corsOptions = {
+    origin: '*',
+    headers: "Access-Control-Allow-Headers, x-access-token, Content-Type, Accept",
+    methods: 'POST, GET, PUT, DELETE',
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
