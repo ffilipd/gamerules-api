@@ -60,6 +60,7 @@ const converter = (textData) => {
             if (line.nbr.length == 2 && currentChapterNbr != line.nbr && currentContentJson != null) {
                 currentChapterNbr = line.nbr;
                 gamerules.push(currentContentJson);
+                console.log(line);
                 currentContentJson = {};
             }
 
@@ -82,10 +83,11 @@ const converter = (textData) => {
             }
 
         })
+        gamerules.push(currentContentJson);
     }
 
     // split to content and rules
-    const splittedText = textData.split('Glossary');
+    const splittedText = textData.split('Credits');
     const contentTextArray = splittedText[0].split('\n');
     const rulesTextArray = splittedText[1].split('\n');
 
@@ -97,6 +99,7 @@ const converter = (textData) => {
     let rawContentJson = textToJson(contentText);
     let rawRulesJson = textToJson(rulesText);
 
+    //  run script
     makeRules();
 
     return gamerules;
