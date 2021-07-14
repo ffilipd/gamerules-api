@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
     origin: '*',
-    headers: "Access-Control-Allow-Headers, x-access-token, Content-Type, Accept",
+    headers: "Access-Control-Allow-Headers, Origin, x-access-token, Content-Type, Accept",
     methods: 'POST, GET, PUT, DELETE',
 };
 
