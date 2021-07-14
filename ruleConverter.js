@@ -60,7 +60,6 @@ const converter = (textData) => {
             if (line.nbr.length == 2 && currentChapterNbr != line.nbr && currentContentJson != null) {
                 currentChapterNbr = line.nbr;
                 gamerules.push(currentContentJson);
-                console.log(line);
                 currentContentJson = {};
             }
 
