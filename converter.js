@@ -57,31 +57,12 @@ const convertTxtFileToJsonString = async (textData) => {
     }
 
     const arrangeRulesByChapters = (array) => {
-        const chapters = array.filter(obj => obj.nbr.length == 2);
-        const subchapters = array.filter(obj => !(obj.nbr.split('.'))[1] && obj.nbr.length == 4);
-        const rules = array.filter(obj => (obj.nbr.split('.'))[1]);
-        let ruleCardsJson = [];
-        let newObj = {};
-        chapters.forEach(chapter => {
-            newObj = {
-                nbr: chapter.nbr,
-                name: chapter.text.replace(/\r/gm, ""),
-                subchapters: []
-            }
-            const currentSubchapters = subchapters.filter(subchapter => subchapter.nbr[0] == chapter.nbr[0]);
-            currentSubchapters.forEach(subchapter => {
-                const currentRules = rules.filter(rule => {return rule.nbr.substr(0, rule.nbr.indexOf('.') + 1) == subchapter.nbr});
-                const cleanedUpRules = currentRules.map(rule => {return {nbr: rule.nbr, text: rule.text.replace(/\r/gm, "")}})
-                newObj.subchapters.push({
-                    nbr: subchapter.nbr,
-                    name: subchapter.text.replace(/\r/gm, ""),
-                    rules: cleanedUpRules
-                })
-            })
-            ruleCardsJson.push(newObj);
-        })
-        return ruleCardsJson;
+        const cleanArray = array.map(obj => {return {nbr:obj.nbr, text: obj.text.replace(/\r/gm, '')}})
+        const chapters = cleanArray.filter(obj => obj.nbr.length == 2);
+        const subchapters = cleanArray.filter(obj => !(obj.nbr.split('.'))[1] && obj.nbr.length == 4);
+        const rules = cleanArray.filter(obj => (obj.nbr.split('.'))[1]);
 
+        return {chapters, subchapters, rules};
     }
 
 
