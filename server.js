@@ -4,7 +4,7 @@ const fs = require('fs');
 const cors = require('cors');
 const axios = require('axios');
 require ('dotenv').config();
-const converter = require('./ruleConverter');
+const converter = require('./converter');
 
 const PORT = process.env.PORT || 3000;
 
